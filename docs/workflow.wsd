@@ -1,0 +1,92 @@
+@startuml Diagrama de classes para exportalção de assinaturas
+
+class CustomerFileImport extends Command {
+    + handle()
+}
+
+class CustomerFileImportEvent {}
+
+note left of CustomerFileImportJob
+    validateAndOpenFile calls validateFile and getFilePointer
+    getNextValidRecord calls getNextContent
+end note
+class CustomerFileImportJob extends AbstractImportJob {
+    - $filePonter
+    + void handle(CustomerFileImportEvent $event)
+    - void validateAndOpenFile(string $format, string $fileName)
+    - getNextValidRecord()
+}
+
+note left of CustomerFileImportService
+    Uses yield methods to getNextContent
+    validateFile throws InvalidJsonFormat
+    validateFields throws InvalidArgumentException
+end note
+class CustomerFileImportService {
+    - customerFilePointer
+    + bool validateFile()
+    + void openFile()
+    + array getNextContent()
+    + stdClass getNextValidTransformedRecord()
+    - bool validateFields()
+    - bool validateCustomer()
+    - bool validateCreditCard()
+    - isUTF8File()
+}
+
+note right of CustomerFileImportRepository
+    Uses yield methods to getNextContent
+    validateFile throws InvalidJsonFormat
+    validateFields throws InvalidArgumentException
+end note
+class CustomerFileImportRepository {
+    - Customer customer
+    - CreditCard creditCard
+    + Customer findOrNewCustomer(array $data)
+    + void saveData()
+}
+
+class ValidateCustomer implements Rule {
+    + passes
+    - isUniq()
+}
+class ValidateCreditCard implements Rule {
+    + passes
+    - isUniq()
+}
+class CustomerJsonFormatTransformer implements AbstractTransformer {}
+class CreditCardJsonFormatTransformer implements AbstractTransformer {}
+
+entity Customer extends Model {
+    - string address
+    - bool checked
+    - string description
+    - string interest
+    - date date_of_birth
+    - string email
+    - Account account
+    - OneToMany credit_card
+}
+entity CreditCard extends Model {
+    - string type
+    - int number
+    - string name
+    - date expirationDate
+    + valid()
+}
+
+abstract class AbstractImportJob implements ShouldQueue, ShouldBeUnique {
+    + validateFile(string $format, string $fileName)
+}
+
+CustomerFileImport *-- CustomerFileImportEvent :fires >
+CustomerFileImportEvent *-- CustomerFileImportJob :calls >
+CustomerFileImportJob *-- CustomerFileImportRepository :calls saveData >
+CustomerFileImportJob *-- CustomerFileImportService
+CustomerFileImportJob *-- CustomerJsonFormatTransformer :calls >
+CustomerFileImportJob *-- CreditCardJsonFormatTransformer :calls >
+CustomerFileImportService *-- ValidateCustomer :validateFields calls >
+CustomerFileImportService *-- ValidateCreditCard :validateFields calls >
+Customer }o..o| CreditCard
+
+@enduml
