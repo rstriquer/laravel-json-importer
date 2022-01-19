@@ -10,16 +10,17 @@ System to illustrate the construction of an artisan command that will import a j
 - Makes use of events and listeners to detach the import command from its execution by using non-synchronous queues;
 - Uses a dat file to save the last imported record;
 
-# How to use
-
-Afther installing the project you can run ```./artisan help import:customerFile``` for more information.
-
+## Class-diagram
 
 Below is an approximate example of the architecture used in a class diagram illustration
 
 
-![Class-diagram ilustration for Laravel Json-importer](https://raw.githubusercontent.com/rstriquer/laravel-json-importer/main/docs/workflow.png =x800)
+<img alt="Class-diagram ilustration for Laravel Json-importer" src=https://raw.githubusercontent.com/rstriquer/laravel-json-importer/main/docs/workflow.png width=800px />
 
+
+# How to use
+
+Afther installing the project you can run ```./artisan help import:customerFile``` for more information.
 
 ## Pre requisitos
 * docker-compose
