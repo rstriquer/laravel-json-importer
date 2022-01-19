@@ -14,6 +14,13 @@ System to illustrate the construction of an artisan command that will import a j
 
 Afther installing the project you can run ```./artisan help import:customerFile``` for more information.
 
+
+Below is an approximate example of the architecture used in a class diagram illustration
+
+
+![Class-diagram ilustration for Laravel Json-importer](https://raw.githubusercontent.com/rstriquer/laravel-json-importer/main/docs/workflow.png =x800)
+
+
 ## Pre requisitos
 * docker-compose
 * php 8.0
