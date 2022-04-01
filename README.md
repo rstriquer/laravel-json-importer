@@ -14,9 +14,7 @@ System to illustrate the construction of an artisan command that will import a j
 
 Below is an approximate example of the architecture used in a class diagram illustration
 
-
-<img alt="Class-diagram ilustration for Laravel Json-importer" src=https://raw.githubusercontent.com/rstriquer/laravel-json-importer/main/docs/workflow.png width=800px />
-
+![Class-diagram ilustration for Laravel Json-importer](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/rstriquer/laravel-json-importer/main/docs/workflow.wsd)
 
 # How to use
 
